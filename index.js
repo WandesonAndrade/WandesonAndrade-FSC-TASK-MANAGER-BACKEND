@@ -31,6 +31,21 @@ app.post("/tasks", async (req, res) => {
     }
 });
 
+//Delete task
+app.delete("/tasks/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const taskToDelete = TaskModel.findById(taskId);
+        if (!taskToDelete) {
+            return res.status(500).send("Task not found");
+        }
+        const deletedTask = await TaskModel.findByIdAndDelete(taskId);
+        res.status(200).send(deletedTask);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 app.listen(8000, () => {
     console.log("Server is running on port 3000");
 });
