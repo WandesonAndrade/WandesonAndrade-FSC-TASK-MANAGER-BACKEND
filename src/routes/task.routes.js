@@ -1,30 +1,19 @@
+//import de bibliotecas
 const express = require("express");
+
+//import de arquivos
 const TaskModel = require("../models/task.models");
+const TaskController = require("../controllers/task.controller");
 
 const router = express.Router();
 
 //retorna todas as tasks
 router.get("/", async (req, res) => {
-    try {
-        const tasks = await TaskModel.find({});
-        res.status(200).send(tasks);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    return new TaskController(req, res).getTasks();
 });
 //busca uma task por id
 router.get("/:id", async (req, res) => {
-    try {
-        const taskId = req.params.id;
-        const task = await TaskModel.findById(taskId);
-
-        if (!task) {
-            return res.status(404).send("Task not found");
-        }
-        return res.status(200).send(task);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    return new TaskController(req, res).getTaskById();
 });
 //cria uma task
 router.post("/", async (req, res) => {
