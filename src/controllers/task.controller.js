@@ -1,5 +1,6 @@
 const TaskModel = require("../models/task.models");
 const { dbError } = require("../errors/mongodb.error");
+const { notAllowed } = require("../errors/general.error");
 
 //classe controller
 class TaskController {
@@ -46,19 +47,21 @@ class TaskController {
         try {
             const taskId = this.req.params.id;
             const taskData = this.req.body;
+
             const updateTask = await TaskModel.findById(taskId);
-            const allowedUpdate = ["isCompleted"];
-            const requestedUpdate = Object.keys(taskData);
 
             if (!updateTask) {
                 return dbError(this.res);
             }
 
-            for (update of requestedUpdate) {
+            const allowedUpdate = ["isCompleted"];
+            const requestedUpdate = Object.keys(taskData);
+
+            for (const update of requestedUpdate) {
                 if (allowedUpdate.includes(update)) {
                     updateTask[update] = taskData[update];
                 } else {
-                    return res.status(500).send("Invalid update");
+                    return notAllowed(this.res);
                 }
             }
             await updateTask.save();
