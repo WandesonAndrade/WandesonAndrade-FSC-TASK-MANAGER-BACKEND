@@ -29,40 +29,12 @@ router.post("/", async (req, res) => {
 
 //atualiza uma task
 router.patch("/:id", async (req, res) => {
-    try {
-        const taskId = req.params.id;
-        const taskData = req.body;
-        const updateTask = await TaskModel.findById(taskId);
-        const allowedUpdate = ["isCompleted"];
-        const requestedUpdate = Object.keys(taskData);
-
-        for (update of requestedUpdate) {
-            if (allowedUpdate.includes(update)) {
-                updateTask[update] = taskData[update];
-            } else {
-                return res.status(500).send("Invalid update");
-            }
-        }
-        await updateTask.save();
-        return res.status(200).send(updateTask);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    return new TaskController(req, res).updateTask();
 });
 
 //Delete task
 router.delete("/:id", async (req, res) => {
-    try {
-        const taskId = req.params.id;
-        const taskToDelete = TaskModel.findById(taskId);
-        if (!taskToDelete) {
-            return res.status(500).send("Task not found");
-        }
-        const deletedTask = await TaskModel.findByIdAndDelete(taskId);
-        res.status(200).send(deletedTask);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    return new TaskController(req, res).deleteTask();
 });
 
 module.exports = router;
