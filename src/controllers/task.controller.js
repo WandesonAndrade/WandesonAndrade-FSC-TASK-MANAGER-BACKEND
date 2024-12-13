@@ -1,10 +1,12 @@
 const TaskModel = require("../models/task.models");
 
+//classe controller
 class TaskController {
     constructor(req, res) {
         this.req = req;
         this.res = res;
     }
+    //retorna todas as tasks
     async getTasks() {
         try {
             const tasks = await TaskModel.find({});
@@ -13,7 +15,7 @@ class TaskController {
             this.res.status(500).send(error);
         }
     }
-
+    //busca uma task por id
     async getTaskById() {
         try {
             const taskId = this.req.params.id;
@@ -27,10 +29,9 @@ class TaskController {
             this.res.status(500).send(error);
         }
     }
-
+    //cria uma task
     async createTask() {
         try {
-            // cria uma task
             const newTask = new TaskModel(this.req.body);
             await newTask.save();
             this.res.status(201).send(newTask);
@@ -38,7 +39,7 @@ class TaskController {
             this.res.status(500).send(error);
         }
     }
-
+    //atualiza uma task
     async updateTask() {
         try {
             const taskId = this.req.params.id;
@@ -60,7 +61,7 @@ class TaskController {
             this.res.status(500).send(error);
         }
     }
-
+    //Delete task
     async deleteTask() {
         try {
             const taskId = this.req.params.id;
