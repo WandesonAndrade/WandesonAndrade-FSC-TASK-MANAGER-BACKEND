@@ -27,6 +27,28 @@ class TaskController {
             this.res.status(500).send(error);
         }
     }
+
+    async updateTask() {
+        try {
+            const taskId = this.req.params.id;
+            const taskData = this.req.body;
+            const updateTask = await TaskModel.findById(taskId);
+            const allowedUpdate = ["isCompleted"];
+            const requestedUpdate = Object.keys(taskData);
+
+            for (update of requestedUpdate) {
+                if (allowedUpdate.includes(update)) {
+                    updateTask[update] = taskData[update];
+                } else {
+                    return res.status(500).send("Invalid update");
+                }
+            }
+            await updateTask.save();
+            return res.status(200).send(updateTask);
+        } catch (error) {
+            this.res.status(500).send(error);
+        }
+    }
 }
 
 module.exports = TaskController;
