@@ -67,7 +67,7 @@ class TaskController {
             const taskId = this.req.params.id;
             const taskToDelete = TaskModel.findById(taskId);
             if (!taskToDelete) {
-                return res.status(500).send("Task not found");
+                return this.res.status(404).send("Task not found");
             }
             const deletedTask = await TaskModel.findByIdAndDelete(taskId);
             this.res.status(200).send(deletedTask);
