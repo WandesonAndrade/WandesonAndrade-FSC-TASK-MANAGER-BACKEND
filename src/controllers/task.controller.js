@@ -28,6 +28,17 @@ class TaskController {
         }
     }
 
+    async createTask() {
+        try {
+            // cria uma task
+            const newTask = new TaskModel(this.req.body);
+            await newTask.save();
+            this.res.status(201).send(newTask);
+        } catch (error) {
+            this.res.status(500).send(error);
+        }
+    }
+
     async updateTask() {
         try {
             const taskId = this.req.params.id;

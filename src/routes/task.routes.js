@@ -17,14 +17,7 @@ router.get("/:id", async (req, res) => {
 });
 //cria uma task
 router.post("/", async (req, res) => {
-    try {
-        // cria uma task
-        const newTask = new TaskModel(req.body);
-        await newTask.save();
-        res.status(201).send(newTask);
-    } catch (error) {
-        res.status(500).send(error);
-    }
+    return new TaskController(req, res).createTask();
 });
 
 //atualiza uma task
