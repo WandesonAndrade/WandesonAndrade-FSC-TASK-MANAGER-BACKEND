@@ -4,4 +4,9 @@ const dbError = (res) => {
         .send("Este dado não foi encontrado no banco de dados.");
 };
 
-module.exports = { dbError };
+const objectCastIdError = (res) => {
+    return res
+        .status(500)
+        .send("O id informado nao foi encontrado no banco de dados.");
+};
+module.exports = { dbError, objectCastIdError };
