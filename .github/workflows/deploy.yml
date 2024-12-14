@@ -1,24 +1,25 @@
+eploy passo executa um curl solicitação para nosso URL de hook de implantação somente se o ramo atual é main e o Test passo bem sucedido.
 # .github/workflows/ci.yml
 
 on:
-    pull_request:
-    push:
-        branches: [main]
+  pull_request:
+  push:
+    branches: [main]
 
 jobs:
-    ci:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Test
-              run: |
-                  npm install
-                  npm run start
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test
+        run: |
+          npm install
+          npm run test
 
-            - name: Deploy
-              # Only run this step if the branch is main
-              if: github.ref == 'refs/heads/main'
-              env:
-                  deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-              run: |
-                  curl "$deploy_url"
+      - name: Deploy
+        # Only run this step if the branch is main
+        if: github.ref == 'refs/heads/main'
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl "$deploy_url"
