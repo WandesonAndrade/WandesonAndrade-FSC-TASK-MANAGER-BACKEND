@@ -6,6 +6,9 @@
         "start:dev": "nodemon index.js",
         "start": "node index.js"
     },
+    "engines": {
+        "node": "20.18.8"
+    },
     "keywords": [],
     "author": "",
     "license": "ISC",
