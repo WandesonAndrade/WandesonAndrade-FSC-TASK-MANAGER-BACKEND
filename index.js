@@ -11,7 +11,9 @@ app.use(express.json());
 connectToDatabase();
 
 app.use("/tasks", taskRouter);
+
+const PORT = process.env.PORT || 8000;
 //inicia o servidor
-app.listen(8000, () => {
-    console.log("Server is running on port 3000");
+app.listen(PORT, () => {
+    console.log(`listening on port ${PORT}`);
 });
