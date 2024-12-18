@@ -70,12 +70,13 @@ class TaskController {
                 }
             }
             await updateTask.save();
-            return res.status(200).send(updateTask);
+            return this.res.status(200).send(updateTask);
         } catch (error) {
             if (error instanceof mongoose.Error.CastError) {
                 return objectCastIdError(this.res);
             }
             this.res.status(500).send(error);
+            console.error("Erro ao atualizar a tarefa:", error);
         }
     }
     //Delete task
